@@ -20,33 +20,59 @@ import UIKit
 
 class ModelController: NSObject, UIPageViewControllerDataSource {
 
-    var pageData = NSArray()
+    var controllers: [UIViewController] = []
+    var conditionsOpt: UIViewController? = nil
+    var notificationPrefsOpt: UIViewController? = nil
+    let controllerCount = 2
 
+    //keep references to static pages and load them from main storyboard
+    //1. Conditions
+    //2. LFG (Future)
+    //3. Settings
+    //      -switches for notifications, weekend notifications, weekday notifications, evening(5:30pm >) notifications, day notifications, specific colors. Grid the time notifications in a section. Color Section. LFG Section (future)
+    //4. Achievement/Certification pages (Future) (perhaps one for each color)
+    
 
     override init() {
         super.init()
         // Create the data model.
-        let dateFormatter = NSDateFormatter()
-        pageData = dateFormatter.monthSymbols
+
+        
     }
 
-    func viewControllerAtIndex(index: Int, storyboard: UIStoryboard) -> DataViewController? {
+    func viewControllerAtIndex(index: Int, storyboard: UIStoryboard) -> UIViewController? {
         // Return the data view controller for the given index.
-        if (self.pageData.count == 0) || (index >= self.pageData.count) {
+        if index >= self.controllerCount {
             return nil
         }
 
         // Create a new view controller and pass suitable data.
-        let dataViewController = storyboard.instantiateViewControllerWithIdentifier("DataViewController") as DataViewController
-        dataViewController.dataObject = self.pageData[index]
-        return dataViewController
+        if (index == 0) {
+            if let controller = conditionsOpt {
+                return controller
+            } else {
+                conditionsOpt = storyboard.instantiateViewControllerWithIdentifier("ConditionsVC") as? UIViewController
+                return conditionsOpt
+            }
+        } else if (index == 1) {
+            if let controller = notificationPrefsOpt {
+                return controller
+            } else {
+                notificationPrefsOpt = storyboard.instantiateViewControllerWithIdentifier("NotificationPrefsVC") as? UIViewController
+                return notificationPrefsOpt
+            }
+        } else {
+            return nil
+        }
     }
 
-    func indexOfViewController(viewController: DataViewController) -> Int {
+    func indexOfViewController(viewController: UIViewController) -> Int {
         // Return the index of the given data view controller.
         // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-        if let dataObject: AnyObject = viewController.dataObject {
-            return self.pageData.indexOfObject(dataObject)
+        if (viewController is ConditionsViewController) {
+            return 0
+        } else if (viewController is NotificationPrefsViewController) {
+            return 1
         } else {
             return NSNotFound
         }
@@ -55,7 +81,7 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
     // MARK: - Page View Controller Data Source
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        var index = self.indexOfViewController(viewController as DataViewController)
+        var index = self.indexOfViewController(viewController)
         if (index == 0) || (index == NSNotFound) {
             return nil
         }
@@ -65,13 +91,13 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        var index = self.indexOfViewController(viewController as DataViewController)
+        var index = self.indexOfViewController(viewController)
         if index == NSNotFound {
             return nil
         }
         
         index++
-        if index == self.pageData.count {
+        if index >= self.controllerCount {
             return nil
         }
         return self.viewControllerAtIndex(index, storyboard: viewController.storyboard!)
