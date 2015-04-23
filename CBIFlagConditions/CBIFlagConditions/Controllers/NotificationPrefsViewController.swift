@@ -47,7 +47,7 @@ class NotificationPrefsViewController: UIViewController {
     }
 
     @IBAction func switchFlipped(sender: AnyObject) {
-        let s: UISwitch = sender as UISwitch
+        let s: UISwitch = sender as! UISwitch
         if s === master {
             weekend.setOn(s.on, animated: true)
             weekday.setOn(s.on, animated: true)

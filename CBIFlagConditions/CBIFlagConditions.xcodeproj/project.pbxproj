@@ -11,12 +11,14 @@
 		9D4A6FF41ABBA75F003FF683 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF01ABBA75F003FF683 /* ModelController.swift */; };
 		9D4A6FF51ABBA75F003FF683 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF11ABBA75F003FF683 /* RootViewController.swift */; };
 		9D4A6FFA1ABBA7EC003FF683 /* Conditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF91ABBA7EC003FF683 /* Conditions.swift */; };
+		9D9166631AD4CDD70027677A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9166621AD4CDD70027677A /* Notifications.swift */; };
 		9DABE2121AD2BB0A0059F879 /* NotificationPrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DABE2111AD2BB0A0059F879 /* NotificationPrefsViewController.swift */; };
 		9DE1906A1A4C7F32003A7CE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE190691A4C7F32003A7CE9 /* AppDelegate.swift */; };
 		9DE190731A4C7F32003A7CE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DE190711A4C7F32003A7CE9 /* Main.storyboard */; };
 		9DE190751A4C7F32003A7CE9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DE190741A4C7F32003A7CE9 /* Images.xcassets */; };
 		9DE190781A4C7F32003A7CE9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DE190761A4C7F32003A7CE9 /* LaunchScreen.xib */; };
 		9DE190841A4C7F32003A7CE9 /* CBIFlagConditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE190831A4C7F32003A7CE9 /* CBIFlagConditionsTests.swift */; };
+		9DEB325B1AE4859E005F05CF /* ServiceCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEB325A1AE4859E005F05CF /* ServiceCall.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,7 @@
 		9D4A6FF11ABBA75F003FF683 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Controllers/RootViewController.swift; sourceTree = "<group>"; };
 		9D4A6FF91ABBA7EC003FF683 /* Conditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Conditions.swift; path = API/Conditions.swift; sourceTree = "<group>"; };
 		9D4A6FFB1ABBB100003FF683 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		9D9166621AD4CDD70027677A /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = API/Notifications.swift; sourceTree = "<group>"; };
 		9DABE2111AD2BB0A0059F879 /* NotificationPrefsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationPrefsViewController.swift; path = Controllers/NotificationPrefsViewController.swift; sourceTree = "<group>"; };
 		9DE190641A4C7F32003A7CE9 /* CBIFlagConditions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBIFlagConditions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE190681A4C7F32003A7CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 		9DE1907D1A4C7F32003A7CE9 /* CBIFlagConditionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CBIFlagConditionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE190821A4C7F32003A7CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DE190831A4C7F32003A7CE9 /* CBIFlagConditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBIFlagConditionsTests.swift; sourceTree = "<group>"; };
+		9DEB325A1AE4859E005F05CF /* ServiceCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceCall.swift; path = API/ServiceCall.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				9D4A6FF91ABBA7EC003FF683 /* Conditions.swift */,
+				9DEB325A1AE4859E005F05CF /* ServiceCall.swift */,
+				9D9166621AD4CDD70027677A /* Notifications.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -259,6 +265,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D4A6FF21ABBA75F003FF683 /* ConditionsViewController.swift in Sources */,
+				9DEB325B1AE4859E005F05CF /* ServiceCall.swift in Sources */,
+				9D9166631AD4CDD70027677A /* Notifications.swift in Sources */,
 				9D4A6FF51ABBA75F003FF683 /* RootViewController.swift in Sources */,
 				9D4A6FF41ABBA75F003FF683 /* ModelController.swift in Sources */,
 				9DE1906A1A4C7F32003A7CE9 /* AppDelegate.swift in Sources */,

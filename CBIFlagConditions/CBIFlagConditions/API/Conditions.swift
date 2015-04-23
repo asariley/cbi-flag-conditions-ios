@@ -46,3 +46,4 @@ private func dictToFlagCondition(reply: [String: Any]) -> FlagCondition? {
 func fetchCurrentConditions(onSuccess: FlagCondition -> (), onFailure: NSError -> ()) {
     
 }
+
