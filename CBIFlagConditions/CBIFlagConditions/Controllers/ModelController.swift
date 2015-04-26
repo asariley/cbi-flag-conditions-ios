@@ -20,24 +20,12 @@ import UIKit
 
 class ModelController: NSObject, UIPageViewControllerDataSource {
 
-    var controllers: [UIViewController] = []
     var conditionsOpt: UIViewController? = nil
     var notificationPrefsOpt: UIViewController? = nil
     let controllerCount = 2
 
-    //keep references to static pages and load them from main storyboard
-    //1. Conditions
-    //2. LFG (Future)
-    //3. Settings
-    //      -switches for notifications, weekend notifications, weekday notifications, evening(5:30pm >) notifications, day notifications, specific colors. Grid the time notifications in a section. Color Section. LFG Section (future)
-    //4. Achievement/Certification pages (Future) (perhaps one for each color)
-    
-
     override init() {
         super.init()
-        // Create the data model.
-
-        
     }
 
     func viewControllerAtIndex(index: Int, storyboard: UIStoryboard) -> UIViewController? {

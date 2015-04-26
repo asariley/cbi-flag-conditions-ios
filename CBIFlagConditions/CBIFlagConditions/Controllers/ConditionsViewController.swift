@@ -78,8 +78,24 @@ class ConditionsViewController: UIViewController {
         }()
         self.windSpeed.text = "\(Int(round(fc.wind.speed))) MPH"
         self.lastUpdated.text = "Last updated \(NSDateFormatter.localizedStringFromDate(fc.updated, dateStyle: .MediumStyle, timeStyle: .MediumStyle))"
-        //FIXME update images
-        NSLog("Got flag condition \(fc)")
+
+        self.flagImage.image = {
+            switch(fc.color){
+            case .GREEN: return UIImage(named: "GreenFlag")
+            case .YELLOW: return UIImage(named: "YellowFlag")
+            case .RED: return UIImage(named: "RedFlag")
+            case .CLOSED: return UIImage(named: "ClosedFlag")
+            }
+        }()
+        
+        self.skyImage.image = {
+            switch(fc.sky){
+            case .SUN: return UIImage(named: "Sunny")
+            case .OVERCAST: return UIImage(named: "Overcast")
+            case .RAIN: return UIImage(named: "Rain")
+            case .THUNDERSTORM: return UIImage(named: "Thunderstorm")
+            }
+        }()
     }
 
 
