@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D39EC171AEC65F800DBE3B8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39EC161AEC65F800DBE3B8 /* ViewController.swift */; };
 		9D4A6FF21ABBA75F003FF683 /* ConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FEE1ABBA75F003FF683 /* ConditionsViewController.swift */; };
 		9D4A6FF41ABBA75F003FF683 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF01ABBA75F003FF683 /* ModelController.swift */; };
 		9D4A6FF51ABBA75F003FF683 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF11ABBA75F003FF683 /* RootViewController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9D39EC161AEC65F800DBE3B8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Extensions/ViewController.swift; sourceTree = "<group>"; };
 		9D4A6FEE1ABBA75F003FF683 /* ConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionsViewController.swift; path = Controllers/ConditionsViewController.swift; sourceTree = "<group>"; };
 		9D4A6FF01ABBA75F003FF683 /* ModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModelController.swift; path = Controllers/ModelController.swift; sourceTree = "<group>"; };
 		9D4A6FF11ABBA75F003FF683 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Controllers/RootViewController.swift; sourceTree = "<group>"; };
@@ -89,11 +91,12 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		9D4A6FED1ABBA6A2003FF683 /* Objects */ = {
+		9D4A6FED1ABBA6A2003FF683 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9D39EC161AEC65F800DBE3B8 /* ViewController.swift */,
 			);
-			name = Objects;
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		9D4A6FF81ABBA7BC003FF683 /* API */ = {
@@ -130,7 +133,7 @@
 			children = (
 				9DE190691A4C7F32003A7CE9 /* AppDelegate.swift */,
 				9D4A6FF81ABBA7BC003FF683 /* API */,
-				9D4A6FED1ABBA6A2003FF683 /* Objects */,
+				9D4A6FED1ABBA6A2003FF683 /* Extensions */,
 				9D4A6FEC1ABBA685003FF683 /* Views */,
 				9D4A6FEB1ABBA671003FF683 /* Controllers */,
 				9DE190741A4C7F32003A7CE9 /* Images.xcassets */,
@@ -267,6 +270,7 @@
 				9D4A6FF21ABBA75F003FF683 /* ConditionsViewController.swift in Sources */,
 				9DEB325B1AE4859E005F05CF /* ServiceCall.swift in Sources */,
 				9D9166631AD4CDD70027677A /* Notifications.swift in Sources */,
+				9D39EC171AEC65F800DBE3B8 /* ViewController.swift in Sources */,
 				9D4A6FF51ABBA75F003FF683 /* RootViewController.swift in Sources */,
 				9D4A6FF41ABBA75F003FF683 /* ModelController.swift in Sources */,
 				9DE1906A1A4C7F32003A7CE9 /* AppDelegate.swift in Sources */,

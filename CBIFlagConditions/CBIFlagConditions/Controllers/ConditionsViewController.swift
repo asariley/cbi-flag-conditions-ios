@@ -9,6 +9,7 @@
 import UIKit
 
 class ConditionsViewController: UIViewController {
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
 
     @IBOutlet weak var temperature: UILabel!
     @IBOutlet weak var sunset: UILabel!
@@ -17,10 +18,37 @@ class ConditionsViewController: UIViewController {
     @IBOutlet weak var lastUpdated: UILabel!
     @IBOutlet weak var flagImage: UIImageView!
     @IBOutlet weak var skyImage: UIImageView!
+    
+    var flagCondition: FlagCondition? = nil {
+        didSet {
+            if let fc = flagCondition {
+                self.updateInterface(fc)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if self.flagCondition == nil {
+            //FIXME Get from storage and set
+        }
+        
+        func gotConditions(flagCondition: FlagCondition?) -> () {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.spinner.stopAnimating()
+                if let fc = flagCondition {
+                    self.flagCondition = flagCondition
+                }
+            }
+        }
+        
+        fetchCurrentConditions(gotConditions) { (e: NSError) -> () in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.spinner.stopAnimating()
+                NSLog("error retrieving conditions: \(e)")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,6 +58,28 @@ class ConditionsViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    private func updateInterface(fc: FlagCondition) {
+        //FIXME update flag condition
+        self.temperature.text = "\(Int(round(fc.temperatureF)))°F"
+        self.sunset.text = fc.sunset
+        self.windDirection.text = {
+            switch(fc.wind.direction){
+            case .NORTH: return "North"
+            case .NORTHEAST: return "North East"
+            case .EAST: return "East"
+            case .SOUTHEAST: return "South East"
+            case .SOUTH: return "South"
+            case .SOUTHWEST: return "South West"
+            case .WEST: return "West"
+            case .NORTHWEST: return "North West"
+            }
+        }()
+        self.windSpeed.text = "\(Int(round(fc.wind.speed))) MPH"
+        self.lastUpdated.text = "Last updated \(NSDateFormatter.localizedStringFromDate(fc.updated, dateStyle: .MediumStyle, timeStyle: .MediumStyle))"
+        //FIXME update images
+        NSLog("Got flag condition \(fc)")
     }
 
 

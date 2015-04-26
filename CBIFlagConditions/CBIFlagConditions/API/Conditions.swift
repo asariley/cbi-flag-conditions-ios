@@ -8,42 +8,101 @@
 
 import Foundation
 
-enum FlagColor {
-    case RED, YELLOW, GREEN, CLOSED
+enum FlagColor: String {
+    case RED = "RED"
+    case YELLOW = "YELLOW"
+    case GREEN = "GREEN"
+    case CLOSED = "CLOSED"
 }
 
-enum WindDirection {
-    case NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
+enum WindDirection: String {
+    case NORTH = "NORTH"
+    case NORTHEAST = "NORTHEAST"
+    case EAST = "EAST"
+    case SOUTHEAST = "SOUTHEAST"
+    case SOUTH = "SOUTH"
+    case SOUTHWEST = "SOUTHWEST"
+    case WEST = "WEST"
+    case NORTHWEST = "NORTHWEST"
 }
 
-enum SkyCondition {
-    case SUN, OVERCAST, RAIN, THUNDERSTORM
+enum SkyCondition: String {
+    case SUN = "SUN"
+    case OVERCAST = "OVERCAST"
+    case RAIN = "RAIN"
+    case THUNDERSTORM = "THUNDERSTORM"
 }
 
-struct WindCondition {
+struct WindCondition{
     let speed: Double
     let direction: WindDirection
+}
+
+func windConditionToDictionary(w: WindCondition) -> Dictionary<String, AnyObject> {
+    return [
+        "speed": w.speed,
+        "direction": w.direction.rawValue
+    ]
+}
+
+func windConditionFromDictionary(dict: Dictionary<String, AnyObject>) -> WindCondition? {
+    if let s = dict["speed"] as? Double,
+           dStr = dict["direction"] as? String,
+           d = WindDirection(rawValue: dStr) {
+        return WindCondition(speed: s, direction: d)
+    } else {
+        NSLog("Couldn't make WindCondition from \(dict)")
+        return nil
+    }
 }
 
 struct FlagCondition {
     let color: FlagColor
     let updated: NSDate
     let wind: WindCondition
-    let sunset: NSDate
+    let sunset: String
     let sky: SkyCondition
     let temperatureF: Double
 }
 
-//FIXME discover accepted way to parse json in swift
-private func dictToWindCondition(reply: [String: Any]) -> WindCondition? {
-    return nil
+func flagConditionToDictionary(fc: FlagCondition) -> Dictionary<String, AnyObject> {
+    return [
+        "color": fc.color.rawValue,
+        "since": fc.updated,
+        "wind": windConditionToDictionary(fc.wind),
+        "sunset": fc.sunset,
+        "sky": fc.sky.rawValue,
+        "tempF": fc.temperatureF
+    ]
 }
 
-private func dictToFlagCondition(reply: [String: Any]) -> FlagCondition? {
-    return nil
+func isoDateToNSDate(dateStr: String) -> NSDate? {
+    let df: NSDateFormatter = NSDateFormatter()
+    df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
+    return df.dateFromString(dateStr)
 }
 
-func fetchCurrentConditions(onSuccess: FlagCondition -> (), onFailure: NSError -> ()) {
-    
+func flagConditionFromDictionary(dict: Dictionary<String, AnyObject>) -> FlagCondition? {
+    if let cStr = dict["color"] as? String,
+           c = FlagColor(rawValue: cStr),
+           sStr = dict["since"] as? String,
+           s = isoDateToNSDate(sStr),
+           wDict = dict["wind"] as? Dictionary<String, AnyObject>,
+           w = windConditionFromDictionary(wDict),
+           u = dict["sunset"] as? String,
+           kStr = dict["sky"] as? String,
+           k = SkyCondition(rawValue: kStr),
+           t = dict["tempF"] as? Double {
+        return FlagCondition(color: c, updated: s, wind: w, sunset: u, sky: k, temperatureF: t)
+    } else {
+        NSLog("Couldn't make FlagCondition from \(dict)")
+        return nil
+    }
+}
+
+func fetchCurrentConditions(onSuccess: FlagCondition? -> (), onFailure: NSError -> ()) {
+    let requestUrl = NSURL(string: AppDelegate.baseUrl + "/api/v1/conditions/current")
+    let requestData: FlagCondition? = nil
+    makeServiceCall(HttpVerb.GET, requestUrl!, requestData, onSuccess, onFailure, flagConditionToDictionary, flagConditionFromDictionary)
 }
 
