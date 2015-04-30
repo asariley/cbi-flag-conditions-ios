@@ -33,3 +33,37 @@ Int(round(1.6))
 Int(round(2.5))
 
 
+extension NSData {
+
+    /// Create hexadecimal string representation of NSData object.
+    ///
+    /// :returns: String representation of this NSData object.
+
+    func hexadecimalString() -> String {
+        var string = NSMutableString(capacity: length * 2)
+        var byte: UInt8 = 0
+
+        for i in 0 ..< length {
+            getBytes(&byte, range: NSMakeRange(i, 1))
+            string.appendFormat("%02x", byte)
+        }
+
+        return String(string)
+    }
+}
+
+
+import CoreBluetooth
+
+let u: NSUUID = NSUUID()
+
+let cb: CBUUID = CBUUID(NSUUID:u)
+
+let nsd: NSData = cb.data
+
+let hex: String = nsd.hexadecimalString()
+
+println(hex)
+
+
+

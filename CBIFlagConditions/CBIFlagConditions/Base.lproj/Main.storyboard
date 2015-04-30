@@ -259,6 +259,7 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="k5b-1D-UJZ" secondAttribute="bottom" id="vQG-AB-Man"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="enabled" destination="ckS-hS-OP6" id="Y6d-wO-SYi"/>
                                             <outlet property="label" destination="k5b-1D-UJZ" id="cVf-6T-McC"/>
@@ -281,6 +282,9 @@
                                     <action selector="submitPressed:" destination="jvy-lB-HBc" eventType="touchUpInside" id="MYJ-sh-QTO"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ixf-cn-60w">
+                                <rect key="frame" x="24" y="572" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -289,11 +293,13 @@
                             <constraint firstItem="L7P-gW-vH2" firstAttribute="top" secondItem="snn-aA-Ey2" secondAttribute="bottom" constant="20" id="Ajg-tI-G9B"/>
                             <constraint firstItem="EI4-wL-O9B" firstAttribute="top" secondItem="igK-rY-UhB" secondAttribute="bottom" constant="-20" id="BbX-fn-wEZ"/>
                             <constraint firstItem="EI4-wL-O9B" firstAttribute="leading" secondItem="evV-ZK-Qbb" secondAttribute="leadingMargin" id="IFL-5Z-jah"/>
+                            <constraint firstItem="L7P-gW-vH2" firstAttribute="top" secondItem="Ixf-cn-60w" secondAttribute="bottom" constant="8" id="Jr9-ni-UNt"/>
                             <constraint firstItem="snn-aA-Ey2" firstAttribute="top" secondItem="FQT-JI-lRB" secondAttribute="bottom" constant="8" id="L6U-Ni-xaZ"/>
                             <constraint firstItem="8Ks-vt-pH2" firstAttribute="top" secondItem="igK-rY-UhB" secondAttribute="bottom" constant="8" id="Mmh-jL-jex"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8Ks-vt-pH2" secondAttribute="trailing" constant="8" id="PCh-az-u40"/>
                             <constraint firstItem="8Ks-vt-pH2" firstAttribute="leading" secondItem="evV-ZK-Qbb" secondAttribute="leadingMargin" constant="8" id="Run-fC-hWB"/>
                             <constraint firstAttribute="centerX" secondItem="8Ks-vt-pH2" secondAttribute="centerX" id="c3D-kd-Qqx"/>
+                            <constraint firstItem="Ixf-cn-60w" firstAttribute="leading" secondItem="evV-ZK-Qbb" secondAttribute="leadingMargin" constant="8" id="dhr-xh-DJW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EI4-wL-O9B" secondAttribute="trailing" id="dlB-E7-O4V"/>
                             <constraint firstItem="L7P-gW-vH2" firstAttribute="top" secondItem="EI4-wL-O9B" secondAttribute="bottom" id="jiN-9e-icS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FQT-JI-lRB" secondAttribute="trailing" constant="8" id="tdA-T5-BFF"/>
@@ -306,6 +312,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="spinner" destination="Ixf-cn-60w" id="2DW-FJ-gMb"/>
                         <outlet property="submit" destination="snn-aA-Ey2" id="9Qn-fk-zUC"/>
                         <outlet property="tableView" destination="FQT-JI-lRB" id="2nI-rR-VMf"/>
                     </connections>

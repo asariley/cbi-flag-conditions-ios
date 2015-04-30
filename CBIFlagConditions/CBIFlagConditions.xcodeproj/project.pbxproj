@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9D39EC171AEC65F800DBE3B8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39EC161AEC65F800DBE3B8 /* ViewController.swift */; };
+		9D39EC191AED253C00DBE3B8 /* NSData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39EC181AED253C00DBE3B8 /* NSData.swift */; };
 		9D4A6FF21ABBA75F003FF683 /* ConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FEE1ABBA75F003FF683 /* ConditionsViewController.swift */; };
 		9D4A6FF41ABBA75F003FF683 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF01ABBA75F003FF683 /* ModelController.swift */; };
 		9D4A6FF51ABBA75F003FF683 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A6FF11ABBA75F003FF683 /* RootViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		9D39EC161AEC65F800DBE3B8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Extensions/ViewController.swift; sourceTree = "<group>"; };
+		9D39EC181AED253C00DBE3B8 /* NSData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSData.swift; path = Extensions/NSData.swift; sourceTree = "<group>"; };
 		9D4A6FEE1ABBA75F003FF683 /* ConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionsViewController.swift; path = Controllers/ConditionsViewController.swift; sourceTree = "<group>"; };
 		9D4A6FF01ABBA75F003FF683 /* ModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModelController.swift; path = Controllers/ModelController.swift; sourceTree = "<group>"; };
 		9D4A6FF11ABBA75F003FF683 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Controllers/RootViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				9D39EC161AEC65F800DBE3B8 /* ViewController.swift */,
+				9D39EC181AED253C00DBE3B8 /* NSData.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				TargetAttributes = {
 					9DE190631A4C7F32003A7CE9 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 6ND2BJ8DDS;
 					};
 					9DE1907C1A4C7F32003A7CE9 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -271,6 +275,7 @@
 				9DEB325B1AE4859E005F05CF /* ServiceCall.swift in Sources */,
 				9D9166631AD4CDD70027677A /* Notifications.swift in Sources */,
 				9D39EC171AEC65F800DBE3B8 /* ViewController.swift in Sources */,
+				9D39EC191AED253C00DBE3B8 /* NSData.swift in Sources */,
 				9D4A6FF51ABBA75F003FF683 /* RootViewController.swift in Sources */,
 				9D4A6FF41ABBA75F003FF683 /* ModelController.swift in Sources */,
 				9DE1906A1A4C7F32003A7CE9 /* AppDelegate.swift in Sources */,
@@ -400,9 +405,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = CBIFlagConditions/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -410,9 +420,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = CBIFlagConditions/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

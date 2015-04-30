@@ -18,4 +18,8 @@ extension UIViewController {
     func appDelegate() -> AppDelegate {
         return UIApplication.sharedApplication().delegate as! AppDelegate
     }
+    
+    func presentAlert(title: String, message: String, affirmativeContinuation: () -> ()) {
+
+    }
 }

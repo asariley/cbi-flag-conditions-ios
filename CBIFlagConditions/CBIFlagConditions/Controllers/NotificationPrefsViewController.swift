@@ -9,6 +9,8 @@
 import UIKit
 
 class NotificationPrefsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    class var NOTIFICATION_PREF_KEY: String { return "notificationPref" }
+    
     weak var master: UISwitch?
     weak var weekend: UISwitch?
     weak var weekday: UISwitch?
@@ -21,32 +23,117 @@ class NotificationPrefsViewController: UIViewController, UITableViewDelegate, UI
     
     @IBOutlet weak var submit: UIButton!
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     @IBOutlet weak var tableView: UITableView!
+    
+    var prefs: NotificationPref? = nil {
+        didSet {
+            if let np = prefs {
+                self.updateInterface(np)
+            } else {
+                self.submit?.enabled = true
+            }
+        }
+    }
+    
+    /** 
+      * Method to handle new pref data. 
+      * Up here in outer scope so it can be used by both viewDidLoad: and submitPressed:
+      */
+    func gotPref(pref: NotificationPref?) -> () {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.spinner.stopAnimating()
+            if let p = pref {
+                self.prefs = p
+                self.submit.enabled = false
+            } else {
+                self.submit.enabled = true
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //Registerforpush
-    }
+        self.tableView.backgroundColor = UIColor.clearColor()
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        //Register for notifications
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge, categories: nil))
+        
+        //Load current notification prefs from storage
+        if self.prefs == nil {
+            let prefDict: Dictionary<String, AnyObject>? = NSUserDefaults.standardUserDefaults().dictionaryForKey(NotificationPrefsViewController.NOTIFICATION_PREF_KEY) as? Dictionary<String, AnyObject>
+            
+            self.prefs = flatMap(prefDict, notificationPrefFromDictionary)
+        }
+    
+        fetchCurrentNotificationPrefs(self.appDelegate().uuid, gotPref) { (e: NSError) -> () in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.spinner.stopAnimating()
+                NSLog("error retrieving notification prefs: \(e)")
+            }
+        }
     }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    private func updateInterface(np: NotificationPref) {
+        self.master?.on = np.weekday || np.weekend || np.daytime || np.evening || np.red || np.yellow || np.green || np.closed
+        self.weekday?.on = np.weekday
+        self.weekend?.on = np.weekend
+        self.daytime?.on = np.daytime
+        self.evening?.on = np.evening
+        self.green?.on = np.green
+        self.yellow?.on = np.yellow
+        self.red?.on = np.red
+        self.closed?.on = np.closed
+        //Make sure button doesn't re enable if it was disabled before
     }
 
     @IBAction func submitPressed(sender: AnyObject) {
+        //check current notification settings to make sure we are allowed.
+        if (UIApplication.sharedApplication().currentUserNotificationSettings().types & UIUserNotificationType.Alert) == nil {
+            //PRESENT ALERT PROMPTING TO ENABLE NOTIFICATIONS
+            let alert = UIAlertController(title: "Notifications Disabled", message: "To enable notifications in the settings app", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: {
+                (uaa: UIAlertAction!) -> () in
+                    UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+        //make sure we have a push token
+        if let pushToken = self.appDelegate().pushToken,
+               weekend = self.weekend?.on,
+               weekday = self.weekday?.on,
+               daytime = self.daytime?.on,
+               evening = self.evening?.on,
+               green = self.green?.on,
+               yellow = self.yellow?.on,
+               red = self.red?.on,
+               closed = self.closed?.on {
+            let n = NotificationPref(address:pushToken, weekday: weekday, weekend: weekend, daytime: daytime, evening: evening, red: red, yellow: yellow, green: green, closed: closed)
+            
+            self.spinner.startAnimating()
+            submit.enabled = false
+            setNotificationPref(self.appDelegate().uuid, n, gotPref) { (e: NSError) -> () in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.spinner.stopAnimating()
+                    self.submit.enabled = true
+                    NSLog("error retrieving conditions: \(e)")
+                }
+            }
+        } else {
+            NSLog("Unable to make NotificationPref. (Does a push token exist?)")
+            if self.appDelegate().pushToken == nil {
+                UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge, categories: nil))
+            
+                let alert = UIAlertController(title: "Are Push Notifications Enabled?", message: "Unable to register for push notifications. Please try again later", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
 
-        // start spinner
-        // collect data
-        // make api call
-        // if successful: end spinner disable submit button
-        // if failure: end spinner enable submit button
-        NSLog("Submit pressed")
-        submit.enabled = false
+        
     }
 
     @IBAction func switchFlipped(sender: AnyObject) {
@@ -61,7 +148,7 @@ class NotificationPrefsViewController: UIViewController, UITableViewDelegate, UI
             red?.setOn(s.on, animated: true)
             closed?.setOn(s.on, animated: true)
         }
-        submit.enabled = true // only set this to true if we get a device Id
+        submit.enabled = true
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

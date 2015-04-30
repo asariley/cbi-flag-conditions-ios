@@ -101,7 +101,7 @@ func flagConditionFromDictionary(dict: Dictionary<String, AnyObject>) -> FlagCon
 }
 
 func fetchCurrentConditions(onSuccess: FlagCondition? -> (), onFailure: NSError -> ()) {
-    let requestUrl = NSURL(string: AppDelegate.baseUrl + "/api/v1/conditions/current")
+    let requestUrl = NSURL(string: AppDelegate.BASE_URL + "/api/v1/conditions/current")
     let requestData: FlagCondition? = nil
     makeServiceCall(HttpVerb.GET, requestUrl!, requestData, onSuccess, onFailure, flagConditionToDictionary, flagConditionFromDictionary)
 }

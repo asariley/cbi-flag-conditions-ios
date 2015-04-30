@@ -13,13 +13,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    class var baseUrl: String { return "http://localhost:9000" }
+    class var BASE_URL: String { return "http://cbiflagconditions.com" }
+    class var UUID_KEY: String { return "uuid" }
+    class var PUSH_TOKEN_KEY: String { return "pushToken" }
+    
+    var uuid: String!
+    var pushToken: String?
+    
+    var conditionsViewController: ConditionsViewController? {
+        if let w = self.window,
+               r = w.rootViewController as? RootViewController,
+               conditionsVC = r.modelController.conditionsOpt {
+            return conditionsVC
+        } else {
+            return nil
+        }
+    }
 
+    var notificationPrefsViewController: NotificationPrefsViewController? {
+        if let w = self.window,
+               r = w.rootViewController as? RootViewController,
+               notificationPrefsVC = r.modelController.notificationPrefsOpt {
+            return notificationPrefsVC
+        } else {
+            return nil
+        }
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let newToken: String = deviceToken.hexadecimalString()
+        if let existingPushToken = self.pushToken where existingPushToken == newToken {
+            NSLog("Got same push token  as before. Doing nothing")
+        } else {
+            NSLog("Updating push token")
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject(newToken, forKey: AppDelegate.PUSH_TOKEN_KEY)
+            defaults.synchronize()
+        }
+    }
+
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        NSLog("Failed to register for push notifications: \(error.localizedDescription)")
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         
-        // FIXME generate UUID and save in NSUserDefaults
+        if let existingUuid: String = defaults.stringForKey(AppDelegate.UUID_KEY) {
+            self.uuid = existingUuid
+        } else {
+            self.uuid = NSUUID().UUIDString
+            defaults.setObject(self.uuid!, forKey: AppDelegate.UUID_KEY)
+            defaults.synchronize()
+        }
+        
+        self.pushToken = defaults.stringForKey(AppDelegate.PUSH_TOKEN_KEY)
         
         return true
     }
@@ -27,13 +79,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-        
-        //SAVE FlagCondition and WindCondition
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        //SAVE FlagCondition and WindCondition
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

@@ -9,6 +9,8 @@
 import UIKit
 
 class ConditionsViewController: UIViewController {
+    class var CONDITIONS_KEY: String { return "conditions" }
+
     @IBOutlet weak var spinner: UIActivityIndicatorView!
 
     @IBOutlet weak var temperature: UILabel!
@@ -19,20 +21,29 @@ class ConditionsViewController: UIViewController {
     @IBOutlet weak var flagImage: UIImageView!
     @IBOutlet weak var skyImage: UIImageView!
     
+    private var conditionsRetrievedTime: NSDate? = nil
     var flagCondition: FlagCondition? = nil {
         didSet {
             if let fc = flagCondition {
                 self.updateInterface(fc)
+                self.conditionsRetrievedTime = NSDate()
             }
         }
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if self.flagCondition == nil {
-            //FIXME Get from storage and set
+            let fcDict: Dictionary<String, AnyObject>? = NSUserDefaults.standardUserDefaults().dictionaryForKey(ConditionsViewController.CONDITIONS_KEY) as? Dictionary<String, AnyObject>
+            
+            self.flagCondition = flatMap(fcDict, flagConditionFromDictionary)
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         func gotConditions(flagCondition: FlagCondition?) -> () {
             dispatch_async(dispatch_get_main_queue()) {
@@ -43,25 +54,17 @@ class ConditionsViewController: UIViewController {
             }
         }
         
-        fetchCurrentConditions(gotConditions) { (e: NSError) -> () in
-            dispatch_async(dispatch_get_main_queue()) {
-                self.spinner.stopAnimating()
-                NSLog("error retrieving conditions: \(e)")
+        if (conditionsRetrievedTime.map {$0.compare(NSDate(timeIntervalSinceNow: -5*60)) == .OrderedAscending }) ?? true {
+            fetchCurrentConditions(gotConditions) { (e: NSError) -> () in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.spinner.stopAnimating()
+                    NSLog("error retrieving conditions: \(e)")
+                }
             }
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
     
     private func updateInterface(fc: FlagCondition) {
-        //FIXME update flag condition
         self.temperature.text = "\(Int(round(fc.temperatureF)))°F"
         self.sunset.text = fc.sunset
         self.windDirection.text = {
@@ -97,6 +100,4 @@ class ConditionsViewController: UIViewController {
             }
         }()
     }
-
-
 }

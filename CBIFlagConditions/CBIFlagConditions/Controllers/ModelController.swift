@@ -20,8 +20,8 @@ import UIKit
 
 class ModelController: NSObject, UIPageViewControllerDataSource {
 
-    var conditionsOpt: UIViewController? = nil
-    var notificationPrefsOpt: UIViewController? = nil
+    var conditionsOpt: ConditionsViewController? = nil
+    var notificationPrefsOpt: NotificationPrefsViewController? = nil
     let controllerCount = 2
 
     override init() {
@@ -39,14 +39,14 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
             if let controller = conditionsOpt {
                 return controller
             } else {
-                conditionsOpt = storyboard.instantiateViewControllerWithIdentifier("ConditionsVC") as? UIViewController
+                conditionsOpt = storyboard.instantiateViewControllerWithIdentifier("ConditionsVC") as? ConditionsViewController
                 return conditionsOpt
             }
         } else if (index == 1) {
             if let controller = notificationPrefsOpt {
                 return controller
             } else {
-                notificationPrefsOpt = storyboard.instantiateViewControllerWithIdentifier("NotificationPrefsVC") as? UIViewController
+                notificationPrefsOpt = storyboard.instantiateViewControllerWithIdentifier("NotificationPrefsVC") as? NotificationPrefsViewController
                 return notificationPrefsOpt
             }
         } else {
