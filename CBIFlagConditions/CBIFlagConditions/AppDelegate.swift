@@ -86,6 +86,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         //SAVE FlagCondition and WindCondition
+        let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        
+        let flagCondition: FlagCondition? = self.conditionsViewController?.flagCondition
+        let notificationPref: NotificationPref? = self.notificationPrefsViewController?.prefs
+        
+        if let fc = flagCondition {
+            defaults.setObject(flagConditionToDictionary(fc), forKey: ConditionsViewController.CONDITIONS_KEY)
+        }
+        if let np = notificationPref {
+            defaults.setObject(notificationPrefToDictionary(np), forKey: NotificationPrefsViewController.NOTIFICATION_PREF_KEY)
+        }
+        
+        defaults.synchronize()
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

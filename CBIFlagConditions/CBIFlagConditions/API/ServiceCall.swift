@@ -66,12 +66,6 @@ func makeServiceCall<RequestData, ResponseData>
 
     }
     
-    
-    NSLog("url: \(req.URL)")
-    if let body = req.HTTPBody {
-        NSLog("body: \(NSString(data: body, encoding: NSUTF8StringEncoding))")
-    }
-    
     NSURLConnection.sendAsynchronousRequest(req, queue: NSOperationQueue.mainQueue(), completionHandler: onComplete)
 }
 
