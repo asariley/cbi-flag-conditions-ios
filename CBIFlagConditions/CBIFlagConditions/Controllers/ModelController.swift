@@ -20,9 +20,10 @@ import UIKit
 
 class ModelController: NSObject, UIPageViewControllerDataSource {
 
+    var introControllerOpt: UIViewController? = nil
     var conditionsOpt: ConditionsViewController? = nil
     var notificationPrefsOpt: NotificationPrefsViewController? = nil
-    let controllerCount = 2
+    let controllerCount = 3
 
     override init() {
         super.init()
@@ -36,13 +37,20 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
 
         // Create a new view controller and pass suitable data.
         if (index == 0) {
+            if let controller = introControllerOpt {
+                return controller
+            } else {
+                introControllerOpt = storyboard.instantiateViewControllerWithIdentifier("introController") as? UIViewController
+                return introControllerOpt
+            }
+        } else if (index == 1) {
             if let controller = conditionsOpt {
                 return controller
             } else {
                 conditionsOpt = storyboard.instantiateViewControllerWithIdentifier("ConditionsVC") as? ConditionsViewController
                 return conditionsOpt
             }
-        } else if (index == 1) {
+        } else if (index == 2) {
             if let controller = notificationPrefsOpt {
                 return controller
             } else {
@@ -57,10 +65,12 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
     func indexOfViewController(viewController: UIViewController) -> Int {
         // Return the index of the given data view controller.
         // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-        if (viewController is ConditionsViewController) {
+        if (introControllerOpt.map{$0 === viewController} ?? false) {
             return 0
-        } else if (viewController is NotificationPrefsViewController) {
+        } else if (viewController is ConditionsViewController) {
             return 1
+        } else if (viewController is NotificationPrefsViewController) {
+            return 2
         } else {
             return NSNotFound
         }

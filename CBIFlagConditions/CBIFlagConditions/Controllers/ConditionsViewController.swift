@@ -31,6 +31,10 @@ class ConditionsViewController: UIViewController {
         }
     }
     
+    @IBAction func wundergroundPressed(sender: AnyObject) -> () {
+        UIApplication.sharedApplication().openURL(NSURL(string: "http://www.wunderground.com/?apiref=841eca728cf0a3bf")!)
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,4 +104,5 @@ class ConditionsViewController: UIViewController {
             }
         }()
     }
+    
 }

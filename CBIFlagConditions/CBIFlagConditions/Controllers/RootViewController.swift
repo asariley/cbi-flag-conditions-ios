@@ -20,7 +20,8 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
         self.pageViewController = UIPageViewController(transitionStyle: .PageCurl, navigationOrientation: .Horizontal, options: nil)
         self.pageViewController!.delegate = self
 
-        let startingViewController: UIViewController = self.modelController.viewControllerAtIndex(0, storyboard: self.storyboard!)!
+        let startingIndex = self.appDelegate().firstTimeVisitor ? 0 : 1
+        let startingViewController: UIViewController = self.modelController.viewControllerAtIndex(startingIndex, storyboard: self.storyboard!)!
         let viewControllers = [startingViewController]
         self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: {done in })
 
@@ -31,9 +32,9 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
 
         // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
         var pageViewRect = self.view.bounds
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        /*if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             pageViewRect = CGRectInset(pageViewRect, 40.0, 40.0)
-        }
+        }*/
         self.pageViewController!.view.frame = pageViewRect
 
         self.pageViewController!.didMoveToParentViewController(self)
